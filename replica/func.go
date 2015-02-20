@@ -86,8 +86,8 @@ func (c *Client) Delete(name string) (err error) {
 	return err
 }
 
-// Exists makes OPTIONS request to check resource existing
-func (c *Client) Exists(name string) (err error) {
+// Exist makes OPTIONS request to check resource existence
+func (c *Client) Exist(name string) (err error) {
 	req, err := c.newRequest("OPTIONS", name, nil)
 	if err != nil {
 		return

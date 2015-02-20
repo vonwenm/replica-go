@@ -232,17 +232,17 @@ func TestGetFail(t *testing.T) {
 	}
 }
 
-func TestExists(t *testing.T) {
-	if err := client.Exists("one"); err != nil {
+func TestExist(t *testing.T) {
+	if err := client.Exist("one"); err != nil {
 		t.Error(err)
 	}
-	if err := client.Exists(testfiles[0].path); err != nil {
+	if err := client.Exist(testfiles[0].path); err != nil {
 		t.Error(err)
 	}
-	if err := client.Exists("not/exists"); err == nil {
+	if err := client.Exist("not/exist"); err == nil {
 		t.Error("expected err, got nil")
 	}
-	if err := client.Exists("%"); err == nil {
+	if err := client.Exist("%"); err == nil {
 		t.Error("expected err, got nil")
 	}
 }
