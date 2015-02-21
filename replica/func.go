@@ -76,12 +76,23 @@ func (c *Client) CreateDir(name string, rep int, meta map[string]string) (err er
 	return c.CreateFile(name, fi, nil)
 }
 
-// Delete makes DELETE request to delete a resource
-func (c *Client) Delete(name string) (err error) {
+// Remove makes DELETE request to delete a resource
+func (c *Client) Remove(name string) (err error) {
 	req, err := c.newRequest("DELETE", name, nil)
 	if err != nil {
 		return
 	}
+	_, err = c.do(req)
+	return err
+}
+
+// RemoveAll makes DELETE request to delete a resource recursivly
+func (c *Client) RemoveAll(name string) (err error) {
+	req, err := c.newRequest("DELETE", name, nil)
+	if err != nil {
+		return
+	}
+	req.Header.Add("X-Remove-All", "x")
 	_, err = c.do(req)
 	return err
 }

@@ -315,24 +315,43 @@ func TestGetInfoFail(t *testing.T) {
 	}
 }
 
-func TestDelFile(t *testing.T) {
+func TestRemoveFile(t *testing.T) {
 	for _, f := range testfiles {
-		err := client.Delete(f.path)
+		err := client.Remove(f.path)
 		if err != nil {
 			t.Fatal(err)
 		}
 	}
-	if err := client.Delete("%"); err == nil {
+	if err := client.Remove("%"); err == nil {
 		t.Error("expected err, got nil")
 	}
 }
 
-func TestDelDir(t *testing.T) {
+func TestRemoveDir(t *testing.T) {
 	for _, f := range []string{"one", "public/two"} {
-		err := client.Delete(f)
+		err := client.Remove(f)
 		if err != nil {
 			t.Fatal(err)
 		}
+	}
+}
+
+func TestRemoveAll(t *testing.T) {
+	// Fail first
+	if err := client.RemoveAll("%"); err == nil {
+		t.Error("expected err, got nil")
+	}
+	for _, f := range []string{"five", "five/six"} {
+		err := client.CreateDir(f, 1, nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+	}
+	if err := client.RemoveAll("five"); err == nil {
+		t.Error("expected err, got nil")
+	}
+	if err := client.Exist("five"); err != nil {
+		t.Error("removeall failed")
 	}
 }
 
