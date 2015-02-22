@@ -145,7 +145,7 @@ func TestCreateFile(t *testing.T) {
 		t.Error("expected error, got <nil>")
 	}
 	for _, f := range testfiles {
-		fi, file, err := OpenFile("test_files/"+f.name, metaGen(f.meta, create|remove))
+		fi, file, err := OpenFile("test_files/"+f.name, 0, metaGen(f.meta, create|remove))
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -294,13 +294,13 @@ func TestGetInfo(t *testing.T) {
 			t.Errorf("expected size %d, got %d", f.size, fi.Size)
 		}
 		for k, v := range metaGen(f.meta, create|update) {
-			if fi.MetaData(k) != v {
-				t.Errorf("%s, meta %s value expected %s, got %s", fi.Name, k, v, fi.MetaData(k))
+			if fi.MetaData()[k] != v {
+				t.Errorf("%s, meta %s value expected %s, got %s", fi.Name, k, v, fi.MetaData()[k])
 			}
 		}
 		for k, v := range metaGen(f.meta, remove) {
-			if fi.MetaData(k) == v {
-				t.Errorf("%s, meta %s value expected empty, got %s", fi.Name, k, fi.MetaData(k))
+			if fi.MetaData()[k] == v {
+				t.Errorf("%s, meta %s value expected empty, got %s", fi.Name, k, fi.MetaData()[k])
 			}
 		}
 	}
@@ -347,16 +347,16 @@ func TestRemoveAll(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
-	if err := client.RemoveAll("five"); err == nil {
-		t.Error("expected err, got nil")
+	if err := client.RemoveAll("five"); err != nil {
+		t.Error(err)
 	}
-	if err := client.Exist("five"); err != nil {
+	if err := client.Exist("five"); err == nil {
 		t.Error("removeall failed")
 	}
 }
 
 func TestOpenFile(t *testing.T) {
-	if _, _, err := OpenFile("nofile", nil); err == nil {
+	if _, _, err := OpenFile("nofile", 0, nil); err == nil {
 		t.Error("expected error, got <nil>")
 	}
 	f, err := os.OpenFile(".noread", os.O_CREATE, 0000)
@@ -365,7 +365,7 @@ func TestOpenFile(t *testing.T) {
 	}
 	f.Close()
 	defer os.Remove(".noread")
-	if _, _, err = OpenFile(".noread", nil); err == nil {
+	if _, _, err = OpenFile(".noread", 0, nil); err == nil {
 		t.Error("expected error, got <nil>")
 	}
 }

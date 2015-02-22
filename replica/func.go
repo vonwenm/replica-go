@@ -124,7 +124,7 @@ func (c *Client) Update(name string, meta, rmeta map[string]string) error {
 }
 
 // OpenFile opens a file to read and returns files info
-func OpenFile(name string, meta map[string]string) (*FileInfo, io.ReadCloser, error) {
+func OpenFile(name string, rc int, meta map[string]string) (*FileInfo, io.ReadCloser, error) {
 	fi := &FileInfo{metaData: make(map[string]string)}
 	f, err := os.Stat(name)
 	if err != nil {
@@ -143,6 +143,7 @@ func OpenFile(name string, meta map[string]string) (*FileInfo, io.ReadCloser, er
 		ctype = http.DetectContentType(buf[:n])
 		_, err = rdc.Seek(0, os.SEEK_SET)
 	}
+	fi.replicaCount = rc
 	fi.contentType = ctype
 	fi.metaData = meta
 	return fi, rdc, nil

@@ -72,20 +72,11 @@ type FileInfo struct {
 	metaData     map[string]string
 }
 
-// ContentType returns content type of FileInfo
+// ContentType returns contentType of FileInfo
 func (f *FileInfo) ContentType() string { return f.contentType }
 
-// ReplicaCount returns replica count of FileInfo
+// ReplicaCount returns replicaCount of FileInfo
 func (f *FileInfo) ReplicaCount() int { return f.replicaCount }
 
-// MetaData returns value of key if it is exist in FileInfo metadata
-// if not exist than returns empty string
-func (f *FileInfo) MetaData(key string) string {
-	if f.metaData == nil {
-		return ""
-	}
-	if val, ok := f.metaData[key]; ok {
-		return val
-	}
-	return ""
-}
+// MetaData returns metaData of FileInfo
+func (f *FileInfo) MetaData() map[string]string { return f.metaData }

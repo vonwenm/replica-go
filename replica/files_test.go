@@ -22,7 +22,7 @@ func TestFiles(t *testing.T) {
 
 func TestMetaData(t *testing.T) {
 	fi := &FileInfo{}
-	if fi.MetaData("test") != "" {
-		t.Error("expected empty value got ", fi.MetaData("test"))
+	if fi.MetaData()["test"] != "" {
+		t.Error("expected empty value got ", fi.MetaData()["test"])
 	}
 }
