@@ -130,7 +130,10 @@ func OpenFile(name string, rc int, meta map[string]string) (*FileInfo, io.ReadCl
 	if err != nil {
 		return nil, nil, err
 	}
+	fi.Name = f.Name()
 	fi.Size = f.Size()
+	fi.IsDir = f.IsDir()
+	fi.ModTime = f.ModTime()
 	ctype := mime.TypeByExtension(filepath.Ext(name))
 	rdc, err := os.Open(name)
 	if err != nil {
