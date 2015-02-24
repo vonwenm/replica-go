@@ -42,7 +42,7 @@ func newFileInfo(resp *http.Response) *FileInfo {
 	fi.Owner = resp.Header.Get("X-Owner")
 	fi.IsDir = resp.Header.Get("X-Type") == "dir"
 	if t, err := time.Parse(http.TimeFormat, resp.Header.Get("Last-Modified")); err == nil {
-		fi.ModTime = t
+		fi.ModTime = t.Local()
 	}
 	if i, err := strconv.Atoi(resp.Header.Get("X-Replica-Count")); err == nil {
 		fi.replicaCount = i

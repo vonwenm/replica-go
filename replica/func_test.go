@@ -273,8 +273,8 @@ func TestGetInfo(t *testing.T) {
 		if fi.IsDir {
 			t.Error("expected type dir, got directory")
 		}
-		now := time.Now().Format("2006 01 02T15:04")
-		mt := fi.ModTime.Format("2006 01 02T15:04")
+		now := time.Now().Format(time.Stamp)
+		mt := fi.ModTime.Format(time.Stamp)
 		if mt != now {
 			t.Errorf("expected ModTime %s, got %s", now, mt)
 		}
