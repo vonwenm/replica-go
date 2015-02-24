@@ -24,7 +24,7 @@ func TestNewClient(t *testing.T) {
 		if err != nil {
 			t.Error(err)
 		}
-		if clt.addr != exres {
+		if clt.Address() != exres {
 			t.Errorf("expected %s, got %s", exres, clt.addr)
 		}
 	}

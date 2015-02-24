@@ -52,6 +52,11 @@ func NewClient(addr string, opts ...func(*Client)) (*Client, error) {
 	return client, nil
 }
 
+// Address returns client connection address
+func (c *Client) Address() string {
+	return c.addr
+}
+
 // AllowUnsignedSSL skip verifying insecure keys
 func AllowUnsignedSSL(c *Client) {
 	c.unsecureSSL = true
